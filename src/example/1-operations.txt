@@ -1,0 +1,16 @@
+jmp : (address: 20) 
+pushi :0
+put (pointer:4) : (bytes :0000) : 0
+pushi :2
+pushi :3
+add 3 + 2
+pushi :5
+mult 5 * 5
+put (pointer:0) : (bytes :00025) : 25
+jmp : (address: 5) 
+push : (pointer:0) : 25
+put (pointer:4) : (bytes :00025) : 25
+jmp : (address: 57) 
+push : (pointer:4) : 25
+printInt (From stack) 25
+halt : code 0
