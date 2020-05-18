@@ -59,28 +59,13 @@ public final class Parser {
         return byteArray;
     }
 
-    /*
-    <pascal program> ->
-	    [<program stat>]
-	    <declarations>
-	    <begin-statement>.
-    <program stat> -> E
-     */
+    
     public static void program() {
         declarations();
         begin();
     }
 
-    /*
-    <declarations> ->
-	    <var decl><declarations>
-	    <label ______,,______>
-	    <type ______,,______>
-	    <const ______,,______>
-	    <procedure ______,,______>
-	    <function ______,,______>
-	-> E
-     */
+    
     public static void declarations() {
         while (true) {
             switch (Token_current.get_Token_Type()) {
