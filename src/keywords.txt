@@ -9,12 +9,8 @@ else
 end
 for
 function
-goto
 if
-in
-label
 mod
-nil
 not
 of
 or
@@ -24,7 +20,6 @@ repeat
 string
 then
 to
-type
 until
 var
 while
