@@ -5,7 +5,6 @@ case
 const
 div
 do
-downto
 else
 end
 for
@@ -21,10 +20,7 @@ of
 or
 procedure
 program
-record
 repeat
-self
-set
 string
 then
 to
