@@ -18,7 +18,6 @@ mod
 nil
 not
 of
-operator
 or
 procedure
 program
