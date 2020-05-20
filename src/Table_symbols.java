@@ -1,12 +1,12 @@
 public final class Table_symbols {
 
     static class Scope {
-        Symbol[] Symbol_Table = new Symbol[HASH_TABLE_SIZE]; // Таблица символов для текущей области
+        Symbol[] Symbol_Table = new Symbol[HASH_TABLE_SIZE]; // Таблица символов для текущей области видимости
         Scope next_scope_pointer = null; // Указатель на следующую внешнюю область
     }
 
     private static final int HASH_TABLE_SIZE = 211;
-    private static Scope Scope_header = new Scope();
+    private static final Scope Scope_header = new Scope();
 
     public static void insert(Symbol symbol) {
         int hash_Value = hash(symbol.getName());

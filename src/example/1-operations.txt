@@ -1,16 +1,26 @@
-jmp : (address: 20) 
-pushi :0
-put (pointer:4) : (bytes :0000) : 0
+jmp : (address: 40) 
+pushf 0.0
+put (pointer:12) : (bytes :0000) : 0.0
 pushi :2
-pushi :3
-add 3 + 2
-pushi :5
-mult 5 * 5
-put (pointer:0) : (bytes :00025) : 25
+pushi :2
+add 2 + 2
+put (pointer:0) : (bytes :0004) : 4
+push : (pointer:0) : 4
+pushi :2
+mult 2 * 4
+put (pointer:0) : (bytes :0008) : 8
 jmp : (address: 5) 
-push : (pointer:0) : 25
-put (pointer:4) : (bytes :00025) : 25
-jmp : (address: 57) 
-push : (pointer:4) : 25
-printInt (From stack) 25
+push : (pointer:0) : 8
+pushi :3
+add 3 + 8
+pushi :2
+div 11 / 2
+pushf 0.1
+xchg : pop 0.1, pop 5, push 0.1 , push 5
+cvr (from Stack) : 5.0
+fadd 5.0 + 0.1
+put (pointer:12) : (bytes :64-935151) : 5.1
+jmp : (address: 87) 
+push : (pointer:12) : 1084437299
+printReal [64, -93, 51, 51] :  : java.nio.HeapByteBuffer[pos=0 lim=4 cap=4] : 5.1
 halt : code 0

@@ -11,6 +11,7 @@ public final class Parser {
     private static int data_pointer = 0; // Указатель на область памяти для переменных
 
     private static final HashMap<String, TYPE> HASH_MAP_types;
+
     static {
         HASH_MAP_types = new HashMap<>();
         HASH_MAP_types.put("integer", TYPE.INT);
@@ -23,7 +24,7 @@ public final class Parser {
     }
 
     enum Operations_code {
-        PUSHI, PUSH, POP,PUSHF,
+        PUSHI, PUSH, POP, PUSHF,
         JMP, JFALSE, JTRUE,
         CVR, CVI,
         DUP, XCHG, REMOVE,
@@ -37,14 +38,14 @@ public final class Parser {
         GET, PUT
     }
 
-    private static final int ADDRESS_SIZE = 4;
+    private static final int ADDRESS_SIZE = 4; // Сколько байт выделяется под одну переменную
 
     private static Token Token_current;
     private static Iterator<Token> Token_iterator;
 
     private static final int INSTRUCTION_SIZE = 1000;
 
-    private static Byte[] byteArray = new Byte[INSTRUCTION_SIZE];
+    private static final Byte[] byteArray = new Byte[INSTRUCTION_SIZE];
     private static int ip = 0;
 
     public static Byte[] parse() {
@@ -52,21 +53,21 @@ public final class Parser {
 
         tokens_match("KW~PROGRAM");
         tokens_match("KW~IDENTIFIER");
-        tokens_match("KW~SEMI_COLON");
+        tokens_match("KW~SEMI_COLON"); //Должно соответствовать шаблону - Program <Имя> ;
 
         program();
 
         return byteArray;
     }
 
-    
+
     public static void program() {
         declarations();
         begin();
     }
 
-    
-    public static void declarations() {
+
+    public static void declarations() { //Различные объявления - переменные, процедуры, ссылки, начало блока
         while (true) {
             switch (Token_current.get_Token_Type()) {
                 case "KW~VAR":
@@ -86,7 +87,7 @@ public final class Parser {
 
 
     private static void label_init() {
-        while(true) {
+        while (true) {
             if ("KW~LABEL".equals(Token_current.get_Token_Type())) {
                 tokens_match("KW~LABEL");
             } else {
@@ -97,14 +98,14 @@ public final class Parser {
             // Хранение ссылок (label) в спике
             ArrayList<Token> Array_labels = new ArrayList<>();
 
-            while ("KW~IDENTIFIER".equals(Token_current.get_Token_Type())) {
+            while ("KW~IDENTIFIER".equals(Token_current.get_Token_Type())) { //Перечисление объявляемых переменных типа label
                 Token_current.set_Token_Type("KW~A_LABEL");
                 Array_labels.add(Token_current);
 
                 tokens_match("KW~A_LABEL");
 
                 if ("KW~COMMA".equals(Token_current.get_Token_Type())) {
-                    tokens_match("KW~COMMA");
+                    tokens_match("KW~COMMA"); // перечисление через запятую
                 }
             }
 
@@ -122,7 +123,7 @@ public final class Parser {
                 }
             }
 
-            tokens_match("KW~SEMI_COLON");
+            tokens_match("KW~SEMI_COLON"); // Объявление заканчивается ;
         }
     }
 
@@ -136,7 +137,7 @@ public final class Parser {
             String procedure_Name = Token_current.get_Token_Val();
 
             tokens_match("KW~A_PROC");
-            tokens_match("KW~SEMI_COLON");
+            tokens_match("KW~SEMI_COLON"); //Procedure <имя>;
 
             // Генерация пустого пространства для перемещения через тело программы
             generate_Operation_Code(Operations_code.JMP);
@@ -173,9 +174,8 @@ public final class Parser {
     }
 
 
-
     public static void var_init() {
-        while(true) {
+        while (true) {
             if ("KW~VAR".equals(Token_current.get_Token_Type())) {
                 tokens_match("KW~VAR");
             } else {
@@ -217,7 +217,7 @@ public final class Parser {
                 }
             }
 
-            if (Type_data.equals("KW~ARRAY")){
+            if (Type_data.equals("KW~ARRAY")) {
                 array_init(var_Array);
             }
 
@@ -225,7 +225,6 @@ public final class Parser {
 
         }
     }
-
 
 
     private static void array_init(ArrayList<Token> var_Array) {
@@ -245,16 +244,16 @@ public final class Parser {
         String val_Type = Token_current.get_Token_Type();
         tokens_match(val_Type);
 
-        if (index_type1 != index_type2){
+        if (index_type1 != index_type2) {
             throw new Error(String.format("Array index LHS type (%s) is not equal to RHS type: (%s)", index_type1, index_type2));
         } else {
 
             assert index_type1 != null;
             switch (index_type1) {
                 case INT:
-                    int i1 = Integer.valueOf(v1);
-                    int i2 = Integer.valueOf(v2);
-                    if (i1 > i2){
+                    int i1 = Integer.parseInt(v1);
+                    int i2 = Integer.parseInt(v2);
+                    if (i1 > i2) {
                         throw new Error(String.format("Array range is invalid: %d..%d", i1, i2));
                     }
 
@@ -263,12 +262,12 @@ public final class Parser {
                         data_pointer = first_Integer_Array.getAddress();
                     }
 
-                    for (Token var: var_Array) {
+                    for (Token var : var_Array) {
                         Symbol symbol = Table_symbols.find_and_get(var.get_Token_Val());
-                        if (symbol != null){
+                        if (symbol != null) {
 
                             int elementSize = 4;
-                            int size = elementSize*(i2 - i1 + 1);
+                            int size = elementSize * (i2 - i1 + 1);
 
                             symbol.set_Address(data_pointer);
                             symbol.set_Low(i1);
@@ -285,7 +284,7 @@ public final class Parser {
                 case CHAR:
                     char c1 = v1.toCharArray()[0];
                     char c2 = v2.toCharArray()[0];
-                    if (c1 > c2){
+                    if (c1 > c2) {
                         throw new Error(String.format("Array range is invalid: %c..%c", c1, c2));
                     }
 
@@ -294,9 +293,9 @@ public final class Parser {
                         data_pointer = first_Char_Array.getAddress();
                     }
 
-                    for (Token var: var_Array) {
+                    for (Token var : var_Array) {
                         Symbol symbol = Table_symbols.find_and_get(var.get_Token_Val());
-                        if (symbol != null){
+                        if (symbol != null) {
                             int size = c2 - c1 + 1;
 
                             symbol.set_Address(data_pointer);
@@ -320,7 +319,7 @@ public final class Parser {
     }
 
 
-    public static void begin(){
+    public static void begin() {
         tokens_match("KW~BEGIN");
         statements();
         tokens_match("KW~END");
@@ -330,8 +329,8 @@ public final class Parser {
     }
 
 
-    public static void statements(){
-        while(!Token_current.get_Token_Type().equals("KW~END")) {
+    public static void statements() {
+        while (!Token_current.get_Token_Type().equals("KW~END")) {
             switch (Token_current.get_Token_Type()) {
                 case "KW~CASE":
                     Statement_case();
@@ -430,7 +429,7 @@ public final class Parser {
         generate_Address(0);
 
         // Пустое пространство для перемещения
-        if (symbol != null){
+        if (symbol != null) {
             symbol.set_Address(hole);
         }
 
@@ -459,7 +458,7 @@ public final class Parser {
             generate_Operation_Code(Operations_code.PUSH);
             generate_Address(address);
             generate_Operation_Code(Operations_code.PUSHI);
-            generate_Address(Integer.valueOf(Token_current.get_Token_Val()));
+            generate_Address(Integer.parseInt(Token_current.get_Token_Val()));
 
             generate_Operation_Code(Operations_code.LEQ);
             tokens_match("KW~INTLIT");
@@ -537,7 +536,7 @@ public final class Parser {
 
     // if <условие> then <действия>
     // if <условие> then <действия> else <действия в ином случае>
-    public static void Statement_if(){
+    public static void Statement_if() {
         tokens_match("KW~IF");
         Condition_type();
         tokens_match("KW~THEN");
@@ -546,7 +545,7 @@ public final class Parser {
         generate_Address(0);
         statements();
 
-        if(Token_current.get_Token_Type().equals("KW~ELSE")) {
+        if (Token_current.get_Token_Type().equals("KW~ELSE")) {
             generate_Operation_Code(Operations_code.JMP);
             int hole2 = ip;
             generate_Address(0);
@@ -566,7 +565,7 @@ public final class Parser {
         ip = save;
     }
 
-  //case <выражение с некоторым значением> of (как правило набор из нескольких пар) <значение> : <действие>
+    //case <выражение с некоторым значением> of (как правило набор из нескольких пар) <значение> : <действие>
     public static void Statement_case() {
         tokens_match("KW~CASE");
         tokens_match("KW~OPEN_PARENTHESIS");
@@ -583,7 +582,7 @@ public final class Parser {
 
         ArrayList<Integer> labelsArrayList = new ArrayList<>();
 
-        while(Token_current.get_Token_Type().equals("KW~INTLIT") ||
+        while (Token_current.get_Token_Type().equals("KW~INTLIT") ||
                 Token_current.get_Token_Type().equals("KW~CHARLIT") ||
                 Token_current.get_Token_Type().equals("KW~BOOLLIT")) {
 
@@ -610,7 +609,7 @@ public final class Parser {
 
             // Вставка в стек токена для подготовки к eql в следующей case ссылке
 
-            if (!Token_current.get_Token_Val().equals("KW~END")){
+            if (!Token_current.get_Token_Val().equals("KW~END")) {
                 Symbol symbol = Table_symbols.find_and_get(eToken.get_Token_Val());
                 if (symbol != null) {
                     generate_Operation_Code(Operations_code.PUSH);
@@ -625,7 +624,7 @@ public final class Parser {
         int save = ip;
 
         // Заполнение всех пустых пространств выделенных под ссылки для JMP
-        for (Integer labelHole: labelsArrayList) {
+        for (Integer labelHole : labelsArrayList) {
             ip = labelHole;
             generate_Address(save);
         }
@@ -634,12 +633,12 @@ public final class Parser {
     }
 
     //Вывод на экран
-    public static void Statement_writeln(){
+    public static void Statement_writeln() {
         tokens_match("KW~WRITELN");
         tokens_match("KW~OPEN_PARENTHESIS");
 
         while (true) {
-            Symbol symbol =  Table_symbols.find_and_get(Token_current.get_Token_Val());
+            Symbol symbol = Table_symbols.find_and_get(Token_current.get_Token_Val());
             TYPE t;
 
             if (symbol != null) {
@@ -668,11 +667,11 @@ public final class Parser {
                 switch (t) {
                     case REAL:
                         generate_Operation_Code(Operations_code.PUSHF);
-                        generate_Address(Float.valueOf(Token_current.get_Token_Val()));
+                        generate_Address(Float.parseFloat(Token_current.get_Token_Val()));
                         break;
                     case INT:
                         generate_Operation_Code(Operations_code.PUSHI);
-                        generate_Address(Integer.valueOf(Token_current.get_Token_Val()));
+                        generate_Address(Integer.parseInt(Token_current.get_Token_Val()));
                         break;
                     case BOOL:
                         generate_Operation_Code(Operations_code.PUSHI);
@@ -684,7 +683,7 @@ public final class Parser {
                         break;
                     case CHAR:
                         generate_Operation_Code(Operations_code.PUSHI);
-                        generate_Address((int)(Token_current.get_Token_Val().charAt(0)));
+                        generate_Address(Token_current.get_Token_Val().charAt(0));
                         break;
                 }
 
@@ -796,7 +795,6 @@ public final class Parser {
                 case INT:
 
                     int i1 = (int) symbol.get_Low();
-                    int i2 = (int) symbol.get_High();
 
                     generate_Address(i1);
                     generate_Operation_Code(Operations_code.XCHG);
@@ -816,7 +814,6 @@ public final class Parser {
                     break;
                 case CHAR:
                     char c1 = (char) symbol.get_Low();
-                    char c2 = (char) symbol.get_High();
 
                     generate_Address(c1);
                     generate_Operation_Code(Operations_code.XCHG);
@@ -850,7 +847,7 @@ public final class Parser {
                     int i2 = (int) symbol.get_High();
 
 
-                    if (Integer.valueOf(index) < i1 || Integer.valueOf(index) > i2) {
+                    if (Integer.parseInt(index) < i1 || Integer.parseInt(index) > i2) {
                         throw new Error(String.format("Index %d is not within range %d to %d",
                                 Integer.valueOf(index), i1, i2));
                     }
@@ -897,7 +894,7 @@ public final class Parser {
     }
 
 
-    public static TYPE Condition_type(){
+    public static void Condition_type() {
         TYPE expr1 = Expression_type();
         while (Token_current.get_Token_Type().equals("KW~LESS_THAN") ||
                 Token_current.get_Token_Type().equals("KW~GREATER_THAN") ||
@@ -912,12 +909,10 @@ public final class Parser {
             expr1 = operation_selector(pred, expr1, expr2);
         }
 
-        return expr1;
     }
 
 
-
-    public static TYPE Expression_type(){
+    public static TYPE Expression_type() {
         TYPE term1 = Terminal_type();
         while (Token_current.get_Token_Type().equals("KW~PLUS") || Token_current.get_Token_Type().equals("KW~MINUS")) {
             String operator_tok = Token_current.get_Token_Type();
@@ -944,7 +939,6 @@ public final class Parser {
         }
         return factor1;
     }
-
 
 
     public static TYPE Factor_type() {
@@ -974,19 +968,19 @@ public final class Parser {
                 }
             case "KW~INTLIT":
                 generate_Operation_Code(Operations_code.PUSHI);
-                generate_Address(Integer.valueOf(Token_current.get_Token_Val()));
+                generate_Address(Integer.parseInt(Token_current.get_Token_Val()));
 
                 tokens_match("KW~INTLIT");
                 return TYPE.INT;
             case "KW~FLOATLIT":
                 generate_Operation_Code(Operations_code.PUSHF);
-                generate_Address(Float.valueOf(Token_current.get_Token_Val()));
+                generate_Address(Float.parseFloat(Token_current.get_Token_Val()));
 
                 tokens_match("KW~FLOATLIT");
                 return TYPE.REAL;
             case "KW~BOOLLIT":
                 generate_Operation_Code(Operations_code.PUSHI);
-                generate_Address(Boolean.valueOf(Token_current.get_Token_Val()) ? 1 : 0);
+                generate_Address(Boolean.parseBoolean(Token_current.get_Token_Val()) ? 1 : 0);
 
                 tokens_match("KW~BOOLLIT");
                 return TYPE.BOOL;
@@ -997,7 +991,7 @@ public final class Parser {
                 tokens_match("KW~CHARLIT");
                 return TYPE.CHAR;
             case "KW~STRLIT":
-                for (char c: Token_current.get_Token_Type().toCharArray()) {
+                for (char c : Token_current.get_Token_Type().toCharArray()) {
                     generate_Operation_Code(Operations_code.PUSHI);
                     generate_Address(c);
                 }
@@ -1019,7 +1013,7 @@ public final class Parser {
     }
 
 
-    public static TYPE operation_selector(String op, TYPE t1, TYPE t2){
+    public static TYPE operation_selector(String op, TYPE t1, TYPE t2) {
         switch (op) {
             case "KW~PLUS":
                 if (t1 == TYPE.INT && t2 == TYPE.INT) {
@@ -1134,32 +1128,32 @@ public final class Parser {
     }
 //Ниже перечислены операции заполняющие выделенные области памяти в байтах
 
-    public static void generate_Operation_Code(Operations_code b){
+    public static void generate_Operation_Code(Operations_code b) {
 
-        byteArray[ip++] = (byte)(b.ordinal());
+        byteArray[ip++] = (byte) (b.ordinal());
     }
 
-    public static void generate_Address(int a){
+    public static void generate_Address(int a) {
 
         byte[] bytes_int = ByteBuffer.allocate(ADDRESS_SIZE).putInt(a).array();
 
-        for (byte b: bytes_int) {
+        for (byte b : bytes_int) {
             byteArray[ip++] = b;
         }
     }
 
-    public static void generate_Address(float a){
+    public static void generate_Address(float a) {
 
         byte[] intBytes = ByteBuffer.allocate(ADDRESS_SIZE).putFloat(a).array();
 
-        for (byte b: intBytes) {
+        for (byte b : intBytes) {
             byteArray[ip++] = b;
         }
     }
 
     public static void getToken() {
         if (Token_iterator.hasNext()) {
-            Token_current =  Token_iterator.next();
+            Token_current = Token_iterator.next();
         }
     }
 

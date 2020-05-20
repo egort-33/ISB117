@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public final class Token_reader {
+    private static final HashMap<String, String> KEYWORDS_TOKEN;
+    private static final HashMap<String, String> OPERATORS_TOKEN; //Токены операторов
+    private static final HashMap<String, TYPE> CHAR_TYPE;
     private static String token_Name = "";
-    private static int line_Row = 0;
-    private static int line_Column = 0;
     private static boolean String_isRead = false;
     private static boolean Number_isRead = false;
     private static boolean isFloat = false;
@@ -15,14 +16,8 @@ public final class Token_reader {
     private static boolean Colon_isRead = false;
     private static boolean Bool_isRead = false;
     private static boolean Dot_isRead = false;
+    private static final ArrayList<Token> Array_List_tokens = new ArrayList<>();
 
-    private static ArrayList<Token> Array_List_tokens = new ArrayList<>();
-
-    enum TYPE {
-        LETTER, DIGIT, SPACE, OPERATOR, QUOTE
-    }
-
-    private static final HashMap<String, String> KEYWORDS_TOKEN;
     static {
         KEYWORDS_TOKEN = new HashMap<>();
         String word;
@@ -38,7 +33,6 @@ public final class Token_reader {
         }
     }
 
-    private static final HashMap<String, String> OPERATORS_TOKEN;
     static {
         OPERATORS_TOKEN = new HashMap<>();
         OPERATORS_TOKEN.put("(", "KW~OPEN_PARENTHESIS");
@@ -64,7 +58,6 @@ public final class Token_reader {
 
     }
 
-    private static final HashMap<String, TYPE> CHAR_TYPE;
     static {
         CHAR_TYPE = new HashMap<>();
 
@@ -109,7 +102,7 @@ public final class Token_reader {
         return Array_List_tokens;
     }
 
-    public static void Char_type_checker(char element){
+    public static void Char_type_checker(char element){ //Проверка типа символа - это может строковый литерал, цифра, пробелы, арифметический оператор или кавычка
         switch (CHAR_TYPE.get(String.valueOf(element))){
 
             case LETTER:
@@ -151,15 +144,7 @@ public final class Token_reader {
                     // Конец слова
                     token_Name = Word_end();
 
-                    if (element == Character.toChars(10)[0]){
-                        // Проверка на новую строку
-                        line_Row++;
-                        line_Column = 0;
-                    } else if (element == Character.toChars(9)[0]){
-                        line_Column +=4;
-                    } else if (element == Character.toChars(32)[0]){
-                        line_Column++;
-                    }
+                    // Проверка на новую строку
                 } else {
                     Number_handle();
                 }
@@ -280,14 +265,14 @@ public final class Token_reader {
         }
     }
 
-    public static String Word_end(){
+    public static String Word_end(){  //проверяет конец слова и возвращает имя токена
         if(KEYWORDS_TOKEN.containsKey(token_Name)){
 
             Token_generate(KEYWORDS_TOKEN.get(token_Name));
         } else {
             if (token_Name.length() > 0) {
 
-                if(token_Name.equals("true") || token_Name.equals("false")) {
+                if (token_Name.equals("true") || token_Name.equals("false")) {
 
                     Token_generate("KW~BOOLLIT");
                 } else {
@@ -302,7 +287,7 @@ public final class Token_reader {
         return token_Name;
     }
 
-    public static void clearStatuses() {
+    public static void clearStatuses() { //сброс статусов читаемого слова
         String_isRead = false;
         Number_isRead = false;
         isFloat = false;
@@ -312,15 +297,13 @@ public final class Token_reader {
     }
 
     public static void Token_generate(String tokenType) {
-        Token t = new Token(tokenType, token_Name, line_Column, line_Row);
-        Array_List_tokens.add(t);
-
-        line_Column += token_Name.length();
+        Token t = new Token(tokenType, token_Name);
+        Array_List_tokens.add(t); // Токен добавляется в список
 
         token_Name = "";
     }
 
-    public static void Number_handle() {
+    public static void Number_handle() { //Целочисленный тип или вещественный
         Number_isRead = false;
         if (isFloat) {
 
@@ -330,5 +313,9 @@ public final class Token_reader {
 
             Token_generate("KW~INTLIT");
         }
+    }
+
+    enum TYPE {
+        LETTER, DIGIT, SPACE, OPERATOR, QUOTE
     }
 }

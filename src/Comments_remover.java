@@ -1,13 +1,10 @@
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Comments_remover {
     public static String remover(Scanner in)
     {
         String str = "";
-        String subs, subs_delete = "";
+        String subs, subs_delete;
         while(in.hasNext())
         {
             subs = in.nextLine();
@@ -49,8 +46,8 @@ else
 
         in.close();
 
-        
-        
+
+
         return str;
     }
 }

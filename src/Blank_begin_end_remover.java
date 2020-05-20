@@ -102,7 +102,7 @@ cleared = false;
         }
 
 
-        
+
         return str;
     }
     private static void clearsp() {

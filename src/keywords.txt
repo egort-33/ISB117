@@ -2,7 +2,6 @@ and
 array
 begin
 case
-const
 div
 do
 else
@@ -11,7 +10,6 @@ for
 function
 if
 mod
-not
 of
 or
 procedure

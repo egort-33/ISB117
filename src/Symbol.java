@@ -11,11 +11,11 @@ Example:
  */
 
 public class Symbol {
-    private String name = "";
-    private String Token_Type = "";
-    private Parser.TYPE Data_Type = null;
+    private final String name;
+    private String Token_Type;
+    private final Parser.TYPE Data_Type;
     private int Address;
-    private int Address_return; // Возвращает адрес для процедуры
+    private int Address_return; // Возвращаемый адрес для процедуры
 
     private Object low_value_range; // Нижняя граница массива
     private Object high_value_range; // Верхняя граница массива
@@ -25,7 +25,7 @@ public class Symbol {
 
     Symbol next_entry_pointer; // Указатель на следующее вхождение в действующем списке таблицы символов
 
-    public Symbol(String name, String Token_Type, Parser.TYPE Data_Type, int address){
+    public Symbol(String name, String Token_Type, Parser.TYPE Data_Type, int address) { //Структура символа
         this.name = name;
         this.Token_Type = Token_Type;
         this.Data_Type = Data_Type;
@@ -34,10 +34,6 @@ public class Symbol {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Parser.TYPE getData_Type() {
