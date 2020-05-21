@@ -1,0 +1,26 @@
+array //массивы
+begin //начало блока
+case //case (var) of <val1> : statement(); <val2> : statement(); end;
+div //деление нацело
+do //предшествует begin, используется только в сочетании с ним
+else //иначе
+end // конец блока
+for //объявление цикла for
+if //условие
+mod //деление с остатком
+of //тип массива
+procedure //процедура
+program //объявление непосредственно программы
+repeat //цикл repeat <statement> until
+then //if <cond> then
+to //В цикле for i:= <low> to <high> do begin
+until //repeat until (cond)
+var //объявление переменной
+while //цикл while (cond) do begin <statements> end;
+label //объявление метки
+goto //переход к адресу метки
+writeln //вывод на экран
+integer //целочисленный тип
+real //тип с плавающей точкой
+boolean //булево значение
+char // символ

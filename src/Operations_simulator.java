@@ -63,6 +63,7 @@ public class Operations_simulator {
                 case PRINT_CHAR:
                     printChar();
                     break;
+
                 case PRINT_NEWLINE:
                     System.out.println();
                     break;
@@ -113,6 +114,10 @@ public class Operations_simulator {
                     break;
                 case DIV:
                     div();
+                    break;
+
+                case MOD:
+                    mod();
                     break;
                 case FDIV:
                     fdiv();
@@ -287,6 +292,9 @@ public class Operations_simulator {
 
     }
 
+
+
+
     public static void add() { //Операция сложения
         int val1 = (int) stack.pop();
         int val2 = (int) stack.pop();
@@ -305,15 +313,15 @@ public class Operations_simulator {
     public static void sub() { //Операция вычитания
         int val1 = (int) stack.pop();
         int val2 = (int) stack.pop();
-        stack.push(val1 - val2);
-        s += ("sub " + val1 + " - " + val2) + "\n";
+        stack.push(val2 - val1);
+        s += ("sub " + val2 + " - " + val1) + "\n";
     }
 
     public static void fsub() { //Операция вычитания чисел с плавающей точкой
         float val1 = (float) stack.pop();
         float val2 = (float) stack.pop();
-        stack.push(val1 - val2);
-        s += ("fsub " + val1 + " - " + val2) + "\n";
+        stack.push(val2 - val1);
+        s += ("fsub " + val2 + " - " + val1) + "\n";
     }
 
     public static void mult() {  //Операция умножения
@@ -343,6 +351,12 @@ public class Operations_simulator {
         int val1 = (int) stack.pop();
         stack.push(val1 / val2);
         s += ("div " + val1 + " / " + val2) + "\n";
+    }
+    public static void mod() { //Операция деления с остатком нацело
+        int val2 = (int) stack.pop();
+        int val1 = (int) stack.pop();
+        stack.push((int)val1 % val2);
+        s += ("mod " + val1 + " % " + val2) + "\n";
     }
 
     public static void cvr() { //Извлечение значения с плавающей точкой из строкового представления элемента стека
@@ -379,7 +393,9 @@ public class Operations_simulator {
         byte[] value_Bytes;
         if (val instanceof Integer) {
             value_Bytes = ByteBuffer.allocate(4).putInt((int) val).array();
-        } else {
+        }
+
+        else {
             value_Bytes = ByteBuffer.allocate(4).putFloat((float) val).array();
         }
 

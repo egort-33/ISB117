@@ -64,15 +64,14 @@ public class Blank_repeat_until_remover {
                 ClearedList.addLast(ScannedList.getFirst());
 
                 ScannedList.removeFirst();
-            /*    p.addLast(r.get(r.size()-1));
-                r.remove((r.size()-1)); //ws for sure*/
+
 
                 if (ScannedList.getFirst() .contains("until")) //reached until with just spaces
                 {
-                    //   r.pop_front();
-                    ScannedList.removeFirst(); //;
+
+                    ScannedList.removeFirst();
                     ClearedList.removeLast();
-                    // p.pop_back();
+
                 } else {
                     ClearedList.addLast(ScannedList.getFirst());
 

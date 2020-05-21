@@ -11,7 +11,7 @@ Example:
  */
 
 public class Symbol {
-    private final String name;
+    private String name;
     private String Token_Type;
     private final Parser.TYPE Data_Type;
     private int Address;

@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 public final class Parser {
     enum TYPE {
-        INT, REAL, BOOL, CHAR, STRING, PROCEDURE, LABEL, ARRAY     // integer, real, boolean, char, string, procedure, label, array
+        INT, REAL, BOOL, CHAR, PROCEDURE, LABEL, ARRAY     // integer, real, boolean, char, procedure, label, array
     }
 
     private static int data_pointer = 0; // Указатель на область памяти для переменных
@@ -18,7 +18,7 @@ public final class Parser {
         HASH_MAP_types.put("real", TYPE.REAL);
         HASH_MAP_types.put("boolean", TYPE.BOOL);
         HASH_MAP_types.put("char", TYPE.CHAR);
-        HASH_MAP_types.put("string", TYPE.STRING);
+
         HASH_MAP_types.put("array", TYPE.ARRAY);
 
     }
@@ -28,7 +28,7 @@ public final class Parser {
         JMP, JFALSE, JTRUE,
         CVR, CVI,
         DUP, XCHG, REMOVE,
-        ADD, SUB, MULT, DIV, NEG,
+        ADD, SUB, MULT, DIV, MOD , NEG,
         OR, AND,
         FADD, FSUB, FMULT, FDIV, FNEG,
         EQL, NEQL, GEQ, LEQ, GTR, LSS,
@@ -67,7 +67,7 @@ public final class Parser {
     }
 
 
-    public static void declarations() { //Различные объявления - переменные, процедуры, ссылки, начало блока
+    public static void declarations() { //Различные объявления - переменные, процедуры, метки, начало блока
         while (true) {
             switch (Token_current.get_Token_Type()) {
                 case "KW~VAR":
@@ -95,7 +95,7 @@ public final class Parser {
                 break;
             }
 
-            // Хранение ссылок (label) в спике
+            // Хранение меток (label) в спике
             ArrayList<Token> Array_labels = new ArrayList<>();
 
             while ("KW~IDENTIFIER".equals(Token_current.get_Token_Type())) { //Перечисление объявляемых переменных типа label
@@ -109,7 +109,7 @@ public final class Parser {
                 }
             }
 
-            // Вставка всех ссылок в таблицу символов
+            // Вставка всех меток в таблицу символов
             for (Token label : Array_labels) {
 
 
@@ -353,10 +353,11 @@ public final class Parser {
                 case "KW~WRITELN":
                     Statement_writeln();
                     break;
+
                 case "KW~IDENTIFIER":
                     Symbol symbol = Table_symbols.find_and_get(Token_current.get_Token_Val());
                     if (symbol != null) {
-                        // Назначение типа токена как переменная процедура или ссылка
+                        // Назначение типа токена как переменная процедура или метка
                         Token_current.set_Token_Type(symbol.getToken_Type());
                     }
                     break;
@@ -590,7 +591,7 @@ public final class Parser {
             operation_selector("KW~EQUAL", t1, t2);
             tokens_match("KW~COLON");
 
-            // Пустое пространство выделяется под JFALSE к следующей case ссылке когда операция сравнения (eql) возвращает false
+            // Пустое пространство выделяется под JFALSE к следующей case когда операция сравнения (eql) возвращает false
             generate_Operation_Code(Operations_code.JFALSE);
             int hole = ip;
             generate_Address(0);
@@ -607,7 +608,7 @@ public final class Parser {
 
             ip = save;
 
-            // Вставка в стек токена для подготовки к eql в следующей case ссылке
+            // Вставка в стек токена для подготовки к eql в следующей case
 
             if (!Token_current.get_Token_Val().equals("KW~END")) {
                 Symbol symbol = Table_symbols.find_and_get(eToken.get_Token_Val());
@@ -704,6 +705,9 @@ public final class Parser {
                 case BOOL:
                     generate_Operation_Code(Operations_code.PRINT_BOOL);
                     break;
+
+
+
                 default:
                     throw new Error("Cannot write unknown type");
 
@@ -930,7 +934,8 @@ public final class Parser {
         TYPE factor1 = Factor_type();
         while (Token_current.get_Token_Type().equals("KW~MULTIPLY") ||
                 Token_current.get_Token_Type().equals("KW~DIVIDE") ||
-                Token_current.get_Token_Type().equals("KW~DIV")) {
+                Token_current.get_Token_Type().equals("KW~DIV")||
+                Token_current.get_Token_Type().equals("KW~MOD")) {
             String operator_tok = Token_current.get_Token_Type();
             tokens_match(operator_tok);
             TYPE factor2 = Factor_type();
@@ -990,14 +995,7 @@ public final class Parser {
 
                 tokens_match("KW~CHARLIT");
                 return TYPE.CHAR;
-            case "KW~STRLIT":
-                for (char c : Token_current.get_Token_Type().toCharArray()) {
-                    generate_Operation_Code(Operations_code.PUSHI);
-                    generate_Address(c);
-                }
 
-                tokens_match("KW~STRLIT");
-                return TYPE.STRING;
             case "KW~NOT":
                 tokens_match("KW~NOT");
                 return Factor_type();
@@ -1090,6 +1088,11 @@ public final class Parser {
             case "KW~DIV":
                 if (t1 == TYPE.INT && t2 == TYPE.INT) {
                     generate_Operation_Code(Operations_code.DIV);
+                    return TYPE.INT;
+                }
+            case "KW~MOD":
+                if (t1 == TYPE.INT && t2 == TYPE.INT) {
+                    generate_Operation_Code(Operations_code.MOD);
                     return TYPE.INT;
                 }
             case "KW~LESS_THAN":

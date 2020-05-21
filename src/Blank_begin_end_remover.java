@@ -69,8 +69,7 @@ cleared = false;
                 ClearedList.addLast(ScannedList.getFirst());
 
                 ScannedList.removeFirst();
-            /*    p.addLast(r.get(r.size()-1));
-                r.remove((r.size()-1)); //ws for sure*/
+
 
                 if (ScannedList.getFirst() .contains("end")) //reached end with just spaces
                 {

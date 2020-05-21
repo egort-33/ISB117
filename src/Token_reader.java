@@ -254,9 +254,6 @@ public final class Token_reader {
                     if (token_Name.length() == 1) {
 
                         Token_generate("KW~CHARLIT");
-                    } else if (token_Name.length() > 1) {
-
-                        Token_generate("KW~STRLIT");
                     }
                 }
                 break;

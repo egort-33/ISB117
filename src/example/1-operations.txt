@@ -1,26 +1,129 @@
-jmp : (address: 40) 
-pushf 0.0
-put (pointer:12) : (bytes :0000) : 0.0
-pushi :2
-pushi :2
-add 2 + 2
-put (pointer:0) : (bytes :0004) : 4
-push : (pointer:0) : 4
-pushi :2
-mult 2 * 4
-put (pointer:0) : (bytes :0008) : 8
-jmp : (address: 5) 
-push : (pointer:0) : 8
+pushi :100
+put (pointer:0) : (bytes :000100) : 100
+pushi :0
+put (pointer:8) : (bytes :0000) : 0
+push : (pointer:8) : 0
 pushi :3
-add 3 + 8
-pushi :2
-div 11 / 2
-pushf 0.1
-xchg : pop 0.1, pop 5, push 0.1 , push 5
-cvr (from Stack) : 5.0
-fadd 5.0 + 0.1
-put (pointer:12) : (bytes :64-935151) : 5.1
-jmp : (address: 87) 
-push : (pointer:12) : 1084437299
-printReal [64, -93, 51, 51] :  : java.nio.HeapByteBuffer[pos=0 lim=4 cap=4] : 5.1
+lessEql 0.0 <=? 3.0 is true
+jfalse (false) 
+push : (pointer:0) : 100
+pushi :100
+eql 100.0 =? 100.0 is true
+jfalse (false) 
+pushi :97
+put (pointer:4) : (bytes :00097) : 97
+jmp : (address: 165) 
+push : (pointer:4) : 97
+printChar (From stack) a
+push : (pointer:0) : 100
+pushi :10
+sub 100 - 10
+put (pointer:0) : (bytes :00090) : 90
+push : (pointer:0) : 90
+printInt (From stack) 90
+push : (pointer:8) : 0
+pushi :1
+add 1 + 0
+put (pointer:8) : (bytes :0001) : 1
+jmp : (address: 20) 
+push : (pointer:8) : 1
+pushi :3
+lessEql 1.0 <=? 3.0 is true
+jfalse (false) 
+push : (pointer:0) : 90
+pushi :100
+eql 90.0 =? 100.0 is false
+jfalse 67
+push : (pointer:0) : 90
+pushi :90
+eql 90.0 =? 90.0 is true
+jfalse (false) 
+pushi :98
+put (pointer:4) : (bytes :00098) : 98
+jmp : (address: 165) 
+push : (pointer:4) : 98
+printChar (From stack) b
+push : (pointer:0) : 90
+pushi :10
+sub 90 - 10
+put (pointer:0) : (bytes :00080) : 80
+push : (pointer:0) : 80
+printInt (From stack) 80
+push : (pointer:8) : 1
+pushi :1
+add 1 + 1
+put (pointer:8) : (bytes :0002) : 2
+jmp : (address: 20) 
+push : (pointer:8) : 2
+pushi :3
+lessEql 2.0 <=? 3.0 is true
+jfalse (false) 
+push : (pointer:0) : 80
+pushi :100
+eql 80.0 =? 100.0 is false
+jfalse 67
+push : (pointer:0) : 80
+pushi :90
+eql 80.0 =? 90.0 is false
+jfalse 98
+push : (pointer:0) : 80
+pushi :80
+eql 80.0 =? 80.0 is true
+jfalse (false) 
+pushi :99
+put (pointer:4) : (bytes :00099) : 99
+jmp : (address: 165) 
+push : (pointer:4) : 99
+printChar (From stack) c
+push : (pointer:0) : 80
+pushi :10
+sub 80 - 10
+put (pointer:0) : (bytes :00070) : 70
+push : (pointer:0) : 70
+printInt (From stack) 70
+push : (pointer:8) : 2
+pushi :1
+add 1 + 2
+put (pointer:8) : (bytes :0003) : 3
+jmp : (address: 20) 
+push : (pointer:8) : 3
+pushi :3
+lessEql 3.0 <=? 3.0 is true
+jfalse (false) 
+push : (pointer:0) : 70
+pushi :100
+eql 70.0 =? 100.0 is false
+jfalse 67
+push : (pointer:0) : 70
+pushi :90
+eql 70.0 =? 90.0 is false
+jfalse 98
+push : (pointer:0) : 70
+pushi :80
+eql 70.0 =? 80.0 is false
+jfalse 129
+push : (pointer:0) : 70
+pushi :70
+eql 70.0 =? 70.0 is true
+jfalse (false) 
+pushi :100
+put (pointer:4) : (bytes :000100) : 100
+jmp : (address: 165) 
+push : (pointer:4) : 100
+printChar (From stack) d
+push : (pointer:0) : 70
+pushi :10
+sub 70 - 10
+put (pointer:0) : (bytes :00060) : 60
+push : (pointer:0) : 60
+printInt (From stack) 60
+push : (pointer:8) : 3
+pushi :1
+add 1 + 3
+put (pointer:8) : (bytes :0004) : 4
+jmp : (address: 20) 
+push : (pointer:8) : 4
+pushi :3
+lessEql 4.0 <=? 3.0 is false
+jfalse 216
 halt : code 0

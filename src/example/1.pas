@@ -1,27 +1,24 @@
-program procedureProgram;
- var y, i, x: integer;
- var z : real;
- procedure p;
+program casetest;
+ var counter: integer;
+ var resultingletter: char;
+ var i : integer;
+ 
  begin
- //комментарий
- { комментарий - блок
- while z = 0 do begin
- }
-while z = 0 do begin //комментарий в одной строке с кодом
-end; //цикл  ниже пуст, его можно удалять, чтобы не вызвать бесконечное зацикливание
-repeat
-while z = 0 do begin
-end;
-until z = true;
- z := ( (y + 3) div 2) + 0.1;
-
-
-
+ counter := 100;
+ for i := 0 to 3 do begin
+ 
+ 
+ case (counter) of
+ 100 : resultingletter := 'a';
+ 90 : resultingletter := 'b';
+ 80 : resultingletter := 'c';
+ 70 : resultingletter := 'd';
  end;
- begin
- z := 0.0;
- y :=  2 + 2;
- y := y * 2 ;
- p;
- writeln(z);
+ 
+ 
+ writeln(resultingletter);
+ counter := counter - 10;
+ writeln(counter);
+ end;
  end.
+ 
