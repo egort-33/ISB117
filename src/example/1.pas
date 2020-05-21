@@ -2,9 +2,21 @@ program casetest;
  var counter: integer;
  var resultingletter: char;
  var i : integer;
- 
+ //
+ {
+ }
+
  begin
  counter := 100;
+
+ for i := 0 to 1 do begin
+ while true
+ do begin
+ repeat
+ until true;
+ end;
+ end;
+
  for i := 0 to 3 do begin
  
  

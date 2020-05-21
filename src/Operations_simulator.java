@@ -418,8 +418,9 @@ public class Operations_simulator {
     public static void halt() { //Выход из программы с кодом 0, компиляция выполнена
         s += ("halt : code 0") + "\n";
         System.out.print("\nProgram finished with exit code 0\n");
+
         try {
-            Files.write(Paths.get("src/example/1-operations.txt"), s.getBytes());
+            Files.write(Paths.get(Run.filepath+Run.filename+"-operations.txt"), s.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -21,9 +21,14 @@ public final class Token_reader {
     static {
         KEYWORDS_TOKEN = new HashMap<>();
         String word;
+        String filename;
+
+
+        filename = Run.filepath+"/keywords.txt";
 
         try {
-            Scanner sc = new Scanner(new File("src/keywords.txt"));
+
+            Scanner sc = new Scanner(new File(filename));
             while(sc.hasNext()){
                 word = sc.next();
                 KEYWORDS_TOKEN.put(word, String.format("KW~%s", word.toUpperCase()));
