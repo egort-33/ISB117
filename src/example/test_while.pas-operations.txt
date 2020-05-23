@@ -1,0 +1,40 @@
+pushi :0
+put (pointer:0) : (bytes :0000) : 0
+push : (pointer:0) : 0
+pushi :3
+less 0.0 <? 3.0 is true
+jfalse (false) 
+push : (pointer:0) : 0
+printInt (From stack) 0
+push : (pointer:0) : 0
+pushi :1
+add 1 + 0
+put (pointer:0) : (bytes :0001) : 1
+jmp : (address: 10) 
+push : (pointer:0) : 1
+pushi :3
+less 1.0 <? 3.0 is true
+jfalse (false) 
+push : (pointer:0) : 1
+printInt (From stack) 1
+push : (pointer:0) : 1
+pushi :1
+add 1 + 1
+put (pointer:0) : (bytes :0002) : 2
+jmp : (address: 10) 
+push : (pointer:0) : 2
+pushi :3
+less 2.0 <? 3.0 is true
+jfalse (false) 
+push : (pointer:0) : 2
+printInt (From stack) 2
+push : (pointer:0) : 2
+pushi :1
+add 1 + 2
+put (pointer:0) : (bytes :0003) : 3
+jmp : (address: 10) 
+push : (pointer:0) : 3
+pushi :3
+less 3.0 <? 3.0 is false
+jfalse 54
+halt : code 0

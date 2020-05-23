@@ -1,0 +1,17 @@
+pushi :9
+put (pointer:0) : (bytes :0009) : 9
+pushi :1
+printInt (From stack) 1
+pushf 6.0
+6.0
+pushi :32
+printChar (From stack)  
+pushi :6
+printInt (From stack) 6
+pushi :0
+printBool 0 (False)
+push : (pointer:0) : 9
+printInt (From stack) 9
+pushi :122
+printChar (From stack) z
+halt : code 0

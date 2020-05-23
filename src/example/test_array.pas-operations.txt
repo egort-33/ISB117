@@ -1,0 +1,176 @@
+pushi :0
+put (pointer:4) : (bytes :0000) : 0
+pushi :5
+put (pointer:8) : (bytes :0005) : 5
+pushi :0
+pushi :0
+xchg : pop 0, pop 0, push 0 , push 0
+sub 0 - 0
+pushi :4
+mult 4 * 0
+pushi :16
+add 16 + 0
+pushi :20
+put (pointer:16) : (bytes: 00020) : 20
+pushi :1
+pushi :0
+xchg : pop 0, pop 1, push 0 , push 1
+sub 0 - 1
+pushi :4
+mult 4 * -1
+pushi :16
+add 16 + -4
+pushi :32
+put (pointer:12) : (bytes: 00032) : 32
+pushi :2
+pushi :0
+xchg : pop 0, pop 2, push 0 , push 2
+sub 0 - 2
+pushi :4
+mult 4 * -2
+pushi :16
+add 16 + -8
+pushi :50
+put (pointer:8) : (bytes: 00050) : 50
+pushi :3
+pushi :0
+xchg : pop 0, pop 3, push 0 , push 3
+sub 0 - 3
+pushi :4
+mult 4 * -3
+pushi :16
+add 16 + -12
+pushi :89
+put (pointer:4) : (bytes: 00089) : 89
+pushi :4
+pushi :0
+xchg : pop 0, pop 4, push 0 , push 4
+sub 0 - 4
+pushi :4
+mult 4 * -4
+pushi :16
+add 16 + -16
+pushi :90
+put (pointer:0) : (bytes: 00090) : 90
+pushi :0
+put (pointer:0) : (bytes :0000) : 0
+push : (pointer:0) : 0
+pushi :4
+lessEql 0.0 <=? 4.0 is true
+jfalse (false) 
+push : (pointer:4) : 89
+push : (pointer:0) : 0
+pushi :0
+xchg : pop 0, pop 0, push 0 , push 0
+sub 0 - 0
+pushi :4
+mult 4 * 0
+pushi :16
+add 16 + 0
+get 20 : 16
+add 20 + 89
+put (pointer:4) : (bytes :000109) : 109
+push : (pointer:0) : 0
+pushi :1
+add 1 + 0
+put (pointer:0) : (bytes :0001) : 1
+jmp : (address: 180) 
+push : (pointer:0) : 1
+pushi :4
+lessEql 1.0 <=? 4.0 is true
+jfalse (false) 
+push : (pointer:4) : 109
+push : (pointer:0) : 1
+pushi :0
+xchg : pop 0, pop 1, push 0 , push 1
+sub 0 - 1
+pushi :4
+mult 4 * -1
+pushi :16
+add 16 + -4
+get 32 : 12
+add 32 + 109
+put (pointer:4) : (bytes :000-115) : 141
+push : (pointer:0) : 1
+pushi :1
+add 1 + 1
+put (pointer:0) : (bytes :0002) : 2
+jmp : (address: 180) 
+push : (pointer:0) : 2
+pushi :4
+lessEql 2.0 <=? 4.0 is true
+jfalse (false) 
+push : (pointer:4) : 141
+push : (pointer:0) : 2
+pushi :0
+xchg : pop 0, pop 2, push 0 , push 2
+sub 0 - 2
+pushi :4
+mult 4 * -2
+pushi :16
+add 16 + -8
+get 50 : 8
+add 50 + 141
+put (pointer:4) : (bytes :000-65) : 191
+push : (pointer:0) : 2
+pushi :1
+add 1 + 2
+put (pointer:0) : (bytes :0003) : 3
+jmp : (address: 180) 
+push : (pointer:0) : 3
+pushi :4
+lessEql 3.0 <=? 4.0 is true
+jfalse (false) 
+push : (pointer:4) : 191
+push : (pointer:0) : 3
+pushi :0
+xchg : pop 0, pop 3, push 0 , push 3
+sub 0 - 3
+pushi :4
+mult 4 * -3
+pushi :16
+add 16 + -12
+get 191 : 4
+add 191 + 191
+put (pointer:4) : (bytes :001126) : 382
+push : (pointer:0) : 3
+pushi :1
+add 1 + 3
+put (pointer:0) : (bytes :0004) : 4
+jmp : (address: 180) 
+push : (pointer:0) : 4
+pushi :4
+lessEql 4.0 <=? 4.0 is true
+jfalse (false) 
+push : (pointer:4) : 382
+push : (pointer:0) : 4
+pushi :0
+xchg : pop 0, pop 4, push 0 , push 4
+sub 0 - 4
+pushi :4
+mult 4 * -4
+pushi :16
+add 16 + -16
+get 4 : 0
+add 4 + 382
+put (pointer:4) : (bytes :001-126) : 386
+push : (pointer:0) : 4
+pushi :1
+add 1 + 4
+put (pointer:0) : (bytes :0005) : 5
+jmp : (address: 180) 
+push : (pointer:0) : 5
+pushi :4
+lessEql 5.0 <=? 4.0 is false
+jfalse 253
+push : (pointer:4) : 386
+push : (pointer:8) : 50
+cvr (from Stack) : 50.0
+xchg : pop 50.0, pop 386, push 50.0 , push 386
+cvr (from Stack) : 386.0
+xchg : pop 386.0, pop 50.0, push 386.0 , push 50.0
+fdiv 386.0 / 50.0
+put (pointer:12) : (bytes :64-91061) : 7.72
+push : (pointer:12) : 1089931837
+printReal [64, -9, 10, 61] :  : java.nio.HeapByteBuffer[pos=0 lim=4 cap=4] : 7.72
+halt : code 0

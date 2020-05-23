@@ -9,7 +9,7 @@ public final class Run {
     public static void main(String[] args) throws IOException {
 
         String str;
-       // "src/example/1.pas";
+
         Scanner finput = new Scanner(System.in);
         System.out.println("Path to /example folder:");
 

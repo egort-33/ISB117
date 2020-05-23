@@ -1,0 +1,16 @@
+pushf 5.2
+pushi :2
+cvr (from Stack) : 2.0
+fmult 2.0 * 5.2
+put (pointer:0) : (bytes :6538102102) : 10.4
+pushi :3
+pushf 2.5
+xchg : pop 2.5, pop 3, push 2.5 , push 3
+cvr (from Stack) : 3.0
+fdiv 2.5 / 3.0
+put (pointer:4) : (bytes :63858585) : 0.8333333
+push : (pointer:0) : 1093035622
+printReal [65, 38, 102, 102] :  : java.nio.HeapByteBuffer[pos=0 lim=4 cap=4] : 10.4
+push : (pointer:4) : 1062557013
+printReal [63, 85, 85, 85] :  : java.nio.HeapByteBuffer[pos=0 lim=4 cap=4] : 0.8333333
+halt : code 0

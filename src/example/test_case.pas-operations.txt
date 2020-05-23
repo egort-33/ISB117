@@ -1,0 +1,20 @@
+pushi :80
+put (pointer:0) : (bytes :00080) : 80
+push : (pointer:0) : 80
+pushi :110
+eql 80.0 =? 110.0 is false
+jfalse 41
+push : (pointer:0) : 80
+pushi :93
+eql 80.0 =? 93.0 is false
+jfalse 72
+push : (pointer:0) : 80
+pushi :80
+eql 80.0 =? 80.0 is true
+jfalse (false) 
+pushi :99
+put (pointer:4) : (bytes :00099) : 99
+jmp : (address: 139) 
+push : (pointer:4) : 99
+printChar (From stack) c
+halt : code 0

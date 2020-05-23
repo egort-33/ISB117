@@ -1,0 +1,43 @@
+pushi :1
+pushi :2
+add 2 + 1
+put (pointer:0) : (bytes :0003) : 3
+pushi :2
+pushi :4
+mult 4 * 2
+put (pointer:4) : (bytes :0008) : 8
+pushi :8
+pushi :3
+div 8 / 3
+put (pointer:8) : (bytes :0002) : 2
+pushi :8
+pushi :3
+cvr (from Stack) : 3.0
+xchg : pop 3.0, pop 8, push 3.0 , push 8
+cvr (from Stack) : 8.0
+xchg : pop 8.0, pop 3.0, push 8.0 , push 3.0
+fdiv 8.0 / 3.0
+put (pointer:16) : (bytes :6442-86-85) : 2.6666667
+pushi :8
+pushi :3
+mod 8 % 3
+put (pointer:12) : (bytes :0002) : 2
+pushi :1
+put (pointer:20) : (bytes :0001) : 1
+push : (pointer:0) : 3
+printInt (From stack) 3
+pushi :32
+printChar (From stack)  
+push : (pointer:4) : 8
+printInt (From stack) 8
+pushi :32
+printChar (From stack)  
+push : (pointer:8) : 2
+printInt (From stack) 2
+push : (pointer:16) : 1076538027
+printReal [64, 42, -86, -85] :  : java.nio.HeapByteBuffer[pos=0 lim=4 cap=4] : 2.6666667
+push : (pointer:12) : 2
+printInt (From stack) 2
+push : (pointer:20) : 1
+printBool 1 (True)
+halt : code 0

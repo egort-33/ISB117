@@ -1,0 +1,10 @@
+pushi :5
+put (pointer:0) : (bytes :0005) : 5
+push : (pointer:0) : 5
+pushi :5
+eql 5.0 =? 5.0 is true
+jfalse (false) 
+jmp : (address: 41) 
+push : (pointer:0) : 5
+printInt (From stack) 5
+halt : code 0

@@ -18,7 +18,6 @@ public final class Parser {
         HASH_MAP_types.put("real", TYPE.REAL);
         HASH_MAP_types.put("boolean", TYPE.BOOL);
         HASH_MAP_types.put("char", TYPE.CHAR);
-
         HASH_MAP_types.put("array", TYPE.ARRAY);
 
     }

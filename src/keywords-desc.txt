@@ -14,6 +14,7 @@ program //объявление непосредственно программы
 repeat //цикл repeat <statement> until
 then //if <cond> then
 to //В цикле for i:= <low> to <high> do begin
+not //Отрицание
 until //repeat until (cond)
 var //объявление переменной
 while //цикл while (cond) do begin <statements> end;

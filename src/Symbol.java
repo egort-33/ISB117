@@ -1,5 +1,5 @@
 /*
-Example:
+Например:
     var x,y,z : integer;
     x := 2
     For variable x:

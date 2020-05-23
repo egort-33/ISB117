@@ -139,8 +139,9 @@ public class Operations_simulator {
 
     private static void get() { //Из стека извлекается указатель на некоторый элемент
         data_pointer = (int) stack.pop();
-        s += ("get " + get_Data(data_pointer) + " : " + data_pointer) + "\n";
-        stack.push(get_Data(data_pointer));
+        int val = get_Data(data_pointer);
+        s += ("get " + val + " : " + data_pointer) + "\n";
+        stack.push(val);
     }
 
     private static void put() { //В область памяти записывается последовательность байт, то есть некоторое значение
@@ -157,7 +158,11 @@ public class Operations_simulator {
 
         s += ("put (pointer:" + data_pointer + ") : (bytes: ");
         for (byte b : value_Bytes) {
+
             Array_data[data_pointer++] = b;
+
+
+
             s = s + b;
         }
         s += (") : " + val) + "\n";
@@ -381,8 +386,9 @@ public class Operations_simulator {
 
     public static void push() { //Добавление элемента по указателю в стек
         data_pointer = get_Addr_Val();
-        stack.push(get_Data(data_pointer));
-        s += ("push : (pointer:" + data_pointer + ") : " + get_Data(data_pointer)) + "\n";
+        int val = get_Data(data_pointer);
+        stack.push(val);
+        s += ("push : (pointer:" + data_pointer + ") : " +val) + "\n";
     }
 
     public static void pop() { //Извлечение элемента из стека по указателю
@@ -420,7 +426,9 @@ public class Operations_simulator {
         System.out.print("\nProgram finished with exit code 0\n");
 
         try {
-            Files.write(Paths.get(Run.filepath+Run.filename+"-operations.txt"), s.getBytes());
+            if (!Files.exists(Paths.get((Run.filepath+"/example/" + Run.filename + "-operations.txt"))))
+            Files.createFile(Paths.get((Run.filepath+"/example/" + Run.filename + "-operations.txt")));
+            Files.write(Paths.get(Run.filepath+"/example/" + Run.filename + "-operations.txt"), s.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,0 +1,16 @@
+pushi :100
+put (pointer:0) : (bytes :000100) : 100
+pushi :200
+put (pointer:4) : (bytes :000-56) : 200
+push : (pointer:0) : 100
+push : (pointer:4) : 200
+less 100.0 <? 200.0 is true
+jfalse (false) 
+pushi :97
+printChar (From stack) a
+pushi :32
+printChar (From stack)  
+push : (pointer:0) : 100
+printInt (From stack) 100
+jmp : (address: 79) 
+halt : code 0
