@@ -138,7 +138,7 @@ public final class Parser {
             tokens_match("KW~A_PROC");
             tokens_match("KW~SEMI_COLON"); //Procedure <имя>;
 
-            // Генерация пустого пространства для перемещения через тело программы
+            // Запоминание адреса для перемещения через тело процедуры
             generate_Operation_Code(Operations_code.JMP);
             int body_jump_hole = ip;
             generate_Address(0);
@@ -148,13 +148,13 @@ public final class Parser {
                     TYPE.PROCEDURE,
                     ip);
 
-            // тело программы
+            // тело процедуры
             tokens_match("KW~BEGIN");
             statements();
             tokens_match("KW~END");
             tokens_match("KW~SEMI_COLON");
 
-            // пустое пространство для возвращения процедуры
+            // адрес для возвращения процедуры
             generate_Operation_Code(Operations_code.JMP);
             symbol.setAddress_return(ip);
             generate_Address(0);
@@ -163,7 +163,7 @@ public final class Parser {
                 Table_symbols.insert(symbol);
             }
 
-            // заполнение пустого пространства для перемещения через тело программы
+            // адрес для перемещения через тело процедуры
             int save = ip;
 
             ip = body_jump_hole;
@@ -390,7 +390,7 @@ public final class Parser {
             int hole = symbol.getAddress();
             int save = ip;
 
-            // Заполнение пустого пространства под goto
+            // запоминание адреса соответствующего label goto
             ip = hole;
             generate_Address(save);
 
@@ -412,7 +412,7 @@ public final class Parser {
 
             int restore = ip;
 
-            // Заполнение пустого пространства под возврат и восстановление указателя
+            // Получение адреса для возврата из функции
             ip = symbol.getAddress_return();
             generate_Address(restore);
             ip = restore;
@@ -428,7 +428,7 @@ public final class Parser {
         int hole = ip;
         generate_Address(0);
 
-        // Пустое пространство для перемещения
+        // установление адреса метки для перемещения
         if (symbol != null) {
             symbol.set_Address(hole);
         }
@@ -590,7 +590,7 @@ public final class Parser {
             operation_selector("KW~EQUAL", t1, t2);
             tokens_match("KW~COLON");
 
-            // Пустое пространство выделяется под JFALSE к следующей case когда операция сравнения (eql) возвращает false
+            // адрес перехода к следующей case когда операция сравнения (eql) возвращает false
             generate_Operation_Code(Operations_code.JFALSE);
             int hole = ip;
             generate_Address(0);
@@ -600,7 +600,7 @@ public final class Parser {
             labelsArrayList.add(ip);
             generate_Address(0);
 
-            // Заполнение пустого пространства JFALSE
+            // Запоминание адреса
             int save = ip;
             ip = hole;
             generate_Address(save);
@@ -623,7 +623,7 @@ public final class Parser {
 
         int save = ip;
 
-        // Заполнение всех пустых пространств выделенных под ссылки для JMP
+        // Заполнение всех адресов, выделенных под JMP
         for (Integer labelHole : labelsArrayList) {
             ip = labelHole;
             generate_Address(save);
